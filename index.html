@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 16px;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        #taskInput {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: border-color 0.3s;
+        }
+
+        #taskInput:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        #addBtn {
+            width: 28px;
+            height: 28px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+        }
+
+        #addBtn:hover {
+            background: #5568d3;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        #addBtn:active {
+            transform: translateY(0);
+        }
+
+        #taskList {
+            list-style: none;
+        }
+
+        .task-item {
+            background: #f8f9fa;
+            padding: 6px 10px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .task-item:hover {
+            background: #f0f1f3;
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .checkbox {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+
+        .task-text {
+            flex: 1;
+            color: #333;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .task-date {
+            font-size: 8px;
+            color: #bbb;
+            margin-top: 2px;
+        }
+
+        .task-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .delete-btn {
+            background: transparent;
+            color: #ff4757;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-btn:hover {
+            background: #ffebee;
+        }
+
+        .done-btn {
+            background: transparent;
+            color: #2ecc71;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .done-btn:hover {
+            background: #e8f8f0;
+        }
+
+        .edit-btn {
+            background: transparent;
+            color: #667eea;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit-btn:hover {
+            background: #f0f2ff;
+        }
+
+        .task-input-edit {
+            flex: 1;
+            padding: 4px 8px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        .task-input-edit:focus {
+            outline: none;
+        }
+
+        .save-btn {
+            background: transparent;
+            color: #667eea;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .save-btn:hover {
+            background: #f0f2ff;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: #95a5a6;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cancel-btn:hover {
+            background: #f5f5f5;
+        }
+
+        /* Force Material Icons to be smaller */
+        .material-icons {
+            font-size: inherit !important;
+        }
+
+        .section-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section-header:first-child {
+            margin-top: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 30px 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 My To-Do List</h1>
+        
+        <div class="input-container">
+            <input 
+                type="text" 
+                id="taskInput" 
+                placeholder="Add a new task..."
+                autocomplete="off"
+            >
+            <button id="addBtn" title="Add task">
+                <span class="material-icons">add</span>
+            </button>
+        </div>
+
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const taskList = document.getElementById('taskList');
+
+        // Load tasks from localStorage
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let editingId = null;
+
+        // Render tasks on page load
+        renderTasks();
+
+        // Add task on button click
+        addBtn.addEventListener('click', addTask);
+
+        // Add task on Enter key press
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+
+        function addTask() {
+            const taskText = taskInput.value.trim();
+            
+            if (taskText === '') {
+                return;
+            }
+
+            const task = {
+                id: Date.now(),
+                text: taskText,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+
+            tasks.push(task);
+            saveTasks();
+            renderTasks();
+            taskInput.value = '';
+            taskInput.focus();
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(task => task.id !== id);
+            saveTasks();
+            renderTasks();
+        }
+
+        function toggleTask(id) {
+            tasks = tasks.map(task => 
+                task.id === id ? { ...task, completed: !task.completed } : task
+            );
+            saveTasks();
+            renderTasks();
+        }
+
+        function renderTasks() {
+            taskList.innerHTML = '';
+
+            const activeTasks = tasks.filter(task => !task.completed);
+            const completedTasks = tasks.filter(task => task.completed);
+
+            if (tasks.length === 0) {
+                taskList.innerHTML = '<div class="empty-state">No tasks yet. Add one above!</div>';
+                return;
+            }
+
+            // Render active tasks
+            if (activeTasks.length > 0) {
+                const activeHeader = document.createElement('div');
+                activeHeader.className = 'section-header';
+                activeHeader.textContent = 'Active Tasks';
+                taskList.appendChild(activeHeader);
+
+                activeTasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.className = 'task-item';
+                    
+                    if (editingId === task.id) {
+                        // Edit mode
+                        li.innerHTML = `
+                            <input 
+                                type="checkbox" 
+                                class="checkbox" 
+                                disabled
+                                style="opacity: 0.3"
+                            >
+                            <div class="task-content">
+                                <input 
+                                    type="text" 
+                                    class="task-input-edit" 
+                                    id="edit-input-${task.id}"
+                                    value="${escapeHtml(task.text)}"
+                                    onkeydown="handleEditKeyPress(event, ${task.id})"
+                                >
+                                <div class="task-date">${formatDate(task.createdAt)}</div>
+                            </div>
+                            <button class="save-btn" onclick="saveEdit(${task.id})" title="Save">
+                                <span class="material-icons">check</span>
+                            </button>
+                            <button class="cancel-btn" onclick="cancelEdit()" title="Cancel">
+                                <span class="material-icons">close</span>
+                            </button>
+                        `;
+                        // Auto-focus the input after render
+                        setTimeout(() => {
+                            const input = document.getElementById(`edit-input-${task.id}`);
+                            if (input) {
+                                input.focus();
+                                input.select();
+                            }
+                        }, 0);
+                    } else {
+                        // Normal mode
+                        li.innerHTML = `
+                            <input 
+                                type="checkbox" 
+                                class="checkbox" 
+                                onchange="toggleTask(${task.id})"
+                            >
+                            <div class="task-content">
+                                <span class="task-text">${escapeHtml(task.text)}</span>
+                                <div class="task-date">${formatDate(task.createdAt)}</div>
+                            </div>
+                            <button class="edit-btn" onclick="startEdit(${task.id})" title="Edit task">
+                                <span class="material-icons">edit</span>
+                            </button>
+                            <button class="done-btn" onclick="markDone(${task.id})" title="Mark as done">
+                                <span class="material-icons">check_circle</span>
+                            </button>
+                            <button class="delete-btn" onclick="deleteTask(${task.id})" title="Delete task">
+                                <span class="material-icons">delete</span>
+                            </button>
+                        `;
+                    }
+                    
+                    taskList.appendChild(li);
+                });
+            }
+
+            // Render completed tasks
+            if (completedTasks.length > 0) {
+                const completedHeader = document.createElement('div');
+                completedHeader.className = 'section-header';
+                completedHeader.textContent = 'Completed Tasks';
+                taskList.appendChild(completedHeader);
+
+                completedTasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.className = 'task-item completed';
+                    
+                    li.innerHTML = `
+                        <input 
+                            type="checkbox" 
+                            class="checkbox" 
+                            checked
+                            onchange="toggleTask(${task.id})"
+                        >
+                        <div class="task-content">
+                            <span class="task-text">${escapeHtml(task.text)}</span>
+                            <div class="task-date">${formatDate(task.createdAt)}</div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteTask(${task.id})" title="Delete task">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    `;
+                    
+                    taskList.appendChild(li);
+                });
+            }
+        }
+
+        function markDone(id) {
+            tasks = tasks.map(task => 
+                task.id === id ? { ...task, completed: true } : task
+            );
+            saveTasks();
+            renderTasks();
+        }
+
+        function startEdit(id) {
+            editingId = id;
+            renderTasks();
+        }
+
+        function saveEdit(id) {
+            const input = document.getElementById(`edit-input-${id}`);
+            const newText = input.value.trim();
+            
+            if (newText === '') {
+                return;
+            }
+
+            tasks = tasks.map(task => 
+                task.id === id ? { ...task, text: newText } : task
+            );
+            editingId = null;
+            saveTasks();
+            renderTasks();
+        }
+
+        function cancelEdit() {
+            editingId = null;
+            renderTasks();
+        }
+
+        function handleEditKeyPress(e, id) {
+            if (e.key === 'Enter') {
+                saveEdit(id);
+            } else if (e.key === 'Escape') {
+                cancelEdit();
+            }
+        }
+
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(isoString) {
+            const date = new Date(isoString);
+            const month = date.toLocaleDateString('en-US', { month: 'short' });
+            const day = date.getDate();
+            return `${month} ${day}`;
+        }
+    </script>
+</body>
+</html>
