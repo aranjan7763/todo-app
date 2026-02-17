@@ -40,7 +40,7 @@ export async function proxy(request: NextRequest) {
   if (
     !user &&
     pathname !== "/login" &&
-    pathname !== "/signup" &&
+    pathname !== "/landing" &&
     !pathname.startsWith("/auth/")
   ) {
     const url = request.nextUrl.clone();
@@ -48,8 +48,8 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Redirect authenticated users away from login/signup
-  if (user && (pathname === "/login" || pathname === "/signup")) {
+  // Redirect authenticated users away from login
+  if (user && pathname === "/login") {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);

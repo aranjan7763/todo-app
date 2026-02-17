@@ -19,7 +19,11 @@ export default function Header({
         <button onClick={onMenuToggle} className="header-menu-btn">
           <span className="material-icons">menu</span>
         </button>
-        <span className="header-title">My To-Do List</span>
+        <img
+          src={theme === "dark" ? "/tasq-dark.png" : "/tasq-light.png"}
+          alt="Tasq"
+          className="header-logo"
+        />
       </div>
       <div className="header-right">
         <div

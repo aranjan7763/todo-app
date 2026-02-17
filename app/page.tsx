@@ -355,7 +355,7 @@ export default function HomePage() {
 
         <div className="main-panel">
           <div className="container">
-            <h1>My To-Do List</h1>
+            <h1>Tasq - Your day, on a checklist</h1>
 
             <div className="input-container">
               <input
