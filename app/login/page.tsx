@@ -145,7 +145,7 @@ export default function AuthPage() {
           {/* Signup Card */}
           <div className="auth-card auth-card-signup">
             <h1>Create your account</h1>
-            <form onSubmit={handleSignup}>
+            <form onSubmit={handleSignup} autoComplete="off">
               <div className="form-group">
                 <div className="auth-input-wrap">
                   <span className="material-icons auth-input-icon">email</span>
@@ -155,6 +155,7 @@ export default function AuthPage() {
                     onChange={(e) => setSignupEmail(e.target.value)}
                     required
                     placeholder="Email address"
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -168,6 +169,7 @@ export default function AuthPage() {
                     onChange={(e) => setSignupPassword(e.target.value)}
                     required
                     placeholder="Password (min 6 chars)"
+                    autoComplete="new-password"
                   />
                 </div>
               </div>
@@ -181,6 +183,7 @@ export default function AuthPage() {
                     onChange={(e) => setSignupConfirm(e.target.value)}
                     required
                     placeholder="Confirm password"
+                    autoComplete="new-password"
                   />
                 </div>
               </div>
