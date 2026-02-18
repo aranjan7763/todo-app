@@ -28,6 +28,7 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState<"created_at" | "text">("created_at");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
 
@@ -87,6 +88,14 @@ export default function HomePage() {
     document.addEventListener("click", handler);
     return () => document.removeEventListener("click", handler);
   }, [sortDropdownOpen]);
+
+  // Close task menu on outside click
+  useEffect(() => {
+    if (!menuOpenId) return;
+    const handler = () => setMenuOpenId(null);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [menuOpenId]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -484,14 +493,6 @@ export default function HomePage() {
                                   <span className="task-date">
                                     {formatDate(todo.created_at)}
                                   </span>
-                                  {cat && (
-                                    <span
-                                      className="task-category-badge"
-                                      style={{ background: cat.color }}
-                                    >
-                                      {cat.name}
-                                    </span>
-                                  )}
                                 </div>
                               </div>
                               <div
@@ -505,13 +506,11 @@ export default function HomePage() {
                                   );
                                 }}
                                 title="Assign category"
+                                style={cat ? { background: cat.color, borderColor: cat.color, color: "#fff", fontWeight: 600 } : undefined}
                               >
-                                <span
-                                  className="task-category-dot"
-                                  style={{
-                                    background: cat?.color || "transparent",
-                                  }}
-                                />
+                                {!cat && (
+                                  <span className="task-category-dot" />
+                                )}
                                 <span className="task-category-label">
                                   {cat ? cat.name : "Category"}
                                 </span>
@@ -553,20 +552,39 @@ export default function HomePage() {
                                   </div>
                                 )}
                               </div>
-                              <button
-                                onClick={() => startEdit(todo.id, todo.text)}
-                                title="Edit task"
-                                className="edit-btn"
-                              >
-                                <span className="material-icons">edit</span>
-                              </button>
-                              <button
-                                onClick={() => deleteTodo(todo.id)}
-                                title="Delete task"
-                                className="delete-btn"
-                              >
-                                <span className="material-icons">delete</span>
-                              </button>
+                              <div className="task-menu">
+                                <button
+                                  className="task-menu-btn"
+                                  title="More options"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setMenuOpenId(menuOpenId === todo.id ? null : todo.id);
+                                  }}
+                                >
+                                  <span className="material-icons">more_vert</span>
+                                </button>
+                                {menuOpenId === todo.id && (
+                                  <div
+                                    className="task-menu-dropdown"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <button
+                                      className="task-menu-item"
+                                      onClick={() => { startEdit(todo.id, todo.text); setMenuOpenId(null); }}
+                                    >
+                                      <span className="material-icons">edit</span>
+                                      Edit
+                                    </button>
+                                    <button
+                                      className="task-menu-item task-menu-item-danger"
+                                      onClick={() => { deleteTodo(todo.id); setMenuOpenId(null); }}
+                                    >
+                                      <span className="material-icons">delete</span>
+                                      Delete
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                             </>
                           )}
                         </li>
@@ -606,13 +624,32 @@ export default function HomePage() {
                               )}
                             </div>
                           </div>
-                          <button
-                            onClick={() => deleteTodo(todo.id)}
-                            title="Delete task"
-                            className="delete-btn"
-                          >
-                            <span className="material-icons">delete</span>
-                          </button>
+                          <div className="task-menu">
+                            <button
+                              className="task-menu-btn"
+                              title="More options"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setMenuOpenId(menuOpenId === todo.id ? null : todo.id);
+                              }}
+                            >
+                              <span className="material-icons">more_vert</span>
+                            </button>
+                            {menuOpenId === todo.id && (
+                              <div
+                                className="task-menu-dropdown"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <button
+                                  className="task-menu-item task-menu-item-danger"
+                                  onClick={() => { deleteTodo(todo.id); setMenuOpenId(null); }}
+                                >
+                                  <span className="material-icons">delete</span>
+                                  Delete
+                                </button>
+                              </div>
+                            )}
+                          </div>
                         </li>
                       );
                     })}

@@ -881,6 +881,7 @@ body {
 .task-category-btn {
   background: var(--task-bg);
   border: 1px solid var(--card-border);
+  color: var(--card-secondary);
   cursor: pointer;
   padding: 3px 8px;
   display: flex;
@@ -908,7 +909,7 @@ body {
 
 .task-category-label {
   font-size: 10px;
-  color: var(--card-secondary);
+  color: inherit;
   white-space: nowrap;
 }
 
@@ -945,6 +946,78 @@ body {
 
 .task-category-picker-item:hover {
   background: var(--task-hover);
+}
+
+/* ── Three-dot task menu ── */
+.task-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.task-menu-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--card-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  padding: 0;
+}
+
+.task-menu-btn:hover {
+  background: var(--task-hover);
+  color: var(--text);
+}
+
+.task-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--modal-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  z-index: 100;
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.task-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--card-text);
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.task-menu-item:hover {
+  background: var(--task-hover);
+}
+
+.task-menu-item .material-icons {
+  font-size: 16px;
+}
+
+.task-menu-item-danger {
+  color: var(--danger);
+}
+
+.task-menu-item-danger:hover {
+  background: rgba(255, 71, 87, 0.1);
 }
 
 /* ── Action buttons ── */
@@ -1010,8 +1083,13 @@ body {
   border-radius: 4px;
   font-size: 13px;
   font-family: inherit;
-  background: var(--input-bg);
+  background: var(--card-bg);
   color: var(--card-text);
+}
+
+html.dark .task-input-edit {
+  background: #12122a;
+  color: #ffffff;
 }
 
 .task-input-edit:focus {
