@@ -7,10 +7,10 @@
   </defs>
   <rect width="512" height="512" rx="96" ry="96" fill="url(#grad)"/>
   <polyline
-    points="116,256 208,348 396,164"
+    points="135,200 210,370 410,150"
     fill="none"
     stroke="white"
-    stroke-width="56"
+    stroke-width="48"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
