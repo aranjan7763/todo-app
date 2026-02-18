@@ -36,7 +36,7 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Redirect unauthenticated users to login (except auth routes)
+  // Redirect unauthenticated users to landing (except auth routes)
   if (
     !user &&
     pathname !== "/login" &&
@@ -44,12 +44,12 @@ export async function proxy(request: NextRequest) {
     !pathname.startsWith("/auth/")
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = "/landing";
     return NextResponse.redirect(url);
   }
 
-  // Redirect authenticated users away from login
-  if (user && pathname === "/login") {
+  // Redirect authenticated users away from login/landing
+  if (user && (pathname === "/login" || pathname === "/landing")) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);

@@ -145,22 +145,6 @@ export default function HomePage() {
     setTodos((prev) => prev.filter((t) => t.id !== id));
   };
 
-  const markDone = async (id: string) => {
-    const { error } = await supabase
-      .from("todos")
-      .update({ completed: true })
-      .eq("id", id);
-
-    if (error) {
-      console.error("Error marking done:", error);
-      return;
-    }
-
-    setTodos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, completed: true } : t))
-    );
-  };
-
   const startEdit = (id: string, text: string) => {
     setEditingId(id);
     setEditText(text);
@@ -575,15 +559,6 @@ export default function HomePage() {
                                 className="edit-btn"
                               >
                                 <span className="material-icons">edit</span>
-                              </button>
-                              <button
-                                onClick={() => markDone(todo.id)}
-                                title="Mark as done"
-                                className="done-btn"
-                              >
-                                <span className="material-icons">
-                                  check_circle
-                                </span>
                               </button>
                               <button
                                 onClick={() => deleteTodo(todo.id)}
