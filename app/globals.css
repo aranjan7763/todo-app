@@ -2135,6 +2135,7 @@ html.dark .task-input-edit {
     top: 0;
     bottom: 0;
     height: 100vh;
+    max-height: 100vh;
     overflow-y: auto;
     z-index: 50;
     transform: translateX(-100%);
@@ -2154,7 +2155,11 @@ html.dark .task-input-edit {
   }
 
   .sidebar-profile-tagline {
-    font-size: 12px;
+    font-size: 13px;
+  }
+
+  .sidebar-profile-about {
+    font-size: 13px;
   }
 
   .sidebar-search input {
